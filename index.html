@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Para Ti Mi Ceci</title>
+    <title>Para Ti Ceci</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
     <style>
@@ -23,17 +23,14 @@
         body {
             display: flex;
             justify-content: center;
-            /* ALINEACIÓN CLAVE: Todo pegado abajo */
-            align-items: flex-end; 
-            padding-bottom: 50px; /* Un pequeño margen desde el borde real del teléfono */
+            align-items: flex-end; /* Alineado abajo para iPhone */
+            padding-bottom: 50px;
             background: #f9f1ec;
             font-family: 'Cormorant Garamond', Georgia, serif;
             position: relative;
         }
 
-        /* ============================================
-           FONDO DE CORAZONES (ESTÉTICA CORREGIDA)
-           ============================================ */
+        /* FONDO DE CORAZONES PASTEL */
         .particles {
             position: fixed;
             inset: 0;
@@ -44,55 +41,39 @@
         .particle {
             position: absolute;
             opacity: 0;
-            /* Truco para quitar el emoji de Apple y usar color plano */
             color: transparent;
-            text-shadow: 0 0 0 #c48b78; /* Color terracota pastel */
+            text-shadow: 0 0 0 #c48b78; /* Terracota pastel */
             animation: drift linear infinite;
         }
 
         @keyframes drift {
-            0% {
-                transform: translateY(105dvh) translateX(0) rotate(0deg) scale(0.5);
-                opacity: 0;
-            }
-            20% { opacity: 0.2; } /* Opacidad baja para que sea sutil */
+            0% { transform: translateY(105dvh) translateX(0) rotate(0deg) scale(0.5); opacity: 0; }
+            20% { opacity: 0.2; }
             80% { opacity: 0.1; }
-            100% {
-                transform: translateY(-10dvh) translateX(var(--sway)) rotate(20deg) scale(0.8);
-                opacity: 0;
-            }
+            100% { transform: translateY(-10dvh) translateX(var(--sway)) rotate(20deg) scale(0.8); opacity: 0; }
         }
 
-        /* ============================================
-           ESCENA
-           ============================================ */
+        /* ESCENA */
         .scene {
             position: relative;
             z-index: 5;
             display: flex;
             justify-content: center;
             width: 100%;
-            /* Ajuste para que el sobre no se vea gigante en pantallas pequeñas */
-            transform: scale(0.9); 
+            transform: scale(0.9);
             transform-origin: bottom center;
         }
 
-        /* ============================================
-           SOBRE
-           ============================================ */
+        /* SOBRE */
         .envelope {
             position: relative;
             width: 320px;
             height: 220px;
-            /* Entrada suave desde abajo */
             animation: slideUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
             opacity: 0;
             transform: translateY(100px);
         }
-
-        @keyframes slideUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
 
         .envelope-body {
             position: absolute;
@@ -111,15 +92,12 @@
             height: 0;
             border-left: 160px solid transparent;
             border-right: 160px solid transparent;
-            border-top: 120px solid #c4a68e; /* Color más oscuro para la solapa */
+            border-top: 120px solid #c4a68e;
             transform-origin: top center;
-            z-index: 6; /* Empieza cerrando todo */
+            z-index: 6;
             animation: openFlap 1.5s cubic-bezier(0.4, 0, 0.2, 1) 1.5s forwards;
         }
-
-        @keyframes openFlap {
-            to { transform: rotateX(180deg); z-index: 1; }
-        }
+        @keyframes openFlap { to { transform: rotateX(180deg); z-index: 1; } }
 
         .pocket {
             position: absolute;
@@ -131,10 +109,10 @@
             border-right: 160px solid #e8d5c8;
             border-bottom: 110px solid #eeddd2;
             border-radius: 0 0 10px 10px;
-            z-index: 4; /* Encima de la carta */
+            z-index: 4;
         }
 
-        /* SELLO */
+        /* SELLO MODIFICADO */
         .wax-seal {
             position: absolute;
             top: 50%;
@@ -145,7 +123,6 @@
             z-index: 7;
             animation: fadeSeal 0.5s ease 1.3s forwards;
         }
-
         .wax-seal-circle {
             width: 100%; height: 100%;
             background: radial-gradient(circle at 35% 35%, #d4917a, #b5705a);
@@ -153,119 +130,75 @@
             display: flex; align-items: center; justify-content: center;
             box-shadow: 0 3px 6px rgba(0,0,0,0.15);
         }
-        .wax-seal-circle::after { content: '♥'; color: rgba(255,255,255,0.8); font-size: 1.2rem; }
         
-        @keyframes fadeSeal {
-            to { opacity: 0; transform: translate(-50%, -50%) scale(0.5); pointer-events: none; }
+        /* AQUÍ ESTÁ EL CAMBIO: El corazón ahora es color terracota oscuro/café */
+        .wax-seal-circle::after { 
+            content: '♥'; 
+            color: #5a4237; /* Mismo color que el texto para máxima elegancia */
+            font-size: 1.2rem; 
+            opacity: 0.9;
         }
+        
+        @keyframes fadeSeal { to { opacity: 0; transform: translate(-50%, -50%) scale(0.5); pointer-events: none; } }
 
-        /* ============================================
-           CARTA (LA MAGIA)
-           ============================================ */
+        /* CARTA */
         .card {
             position: absolute;
-            /* Anclamos la carta al fondo del sobre */
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
+            bottom: 10px; left: 50%; transform: translateX(-50%);
             width: 290px;
-            
-            /* Altura automática: crecerá hacia arriba conforme se escriba */
-            height: auto;
-            min-height: 180px; /* Altura inicial pequeña */
-            /* Máximo para que no se salga de la pantalla en iPhone 15 */
-            max-height: 75vh; 
-            
+            height: auto; min-height: 180px; max-height: 75vh;
             background: #fffdf9;
             border-radius: 4px;
             padding: 24px 20px;
-            z-index: 3; /* Entre el cuerpo y el bolsillo */
-            
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start; /* Texto empieza arriba */
-            
+            z-index: 3;
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
             box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
-            
-            /* Animación inicial: asoma un poco del sobre */
             transition: bottom 0.5s ease;
             animation: popOut 1s cubic-bezier(0.22, 1, 0.36, 1) 2.8s forwards;
         }
-
-        @keyframes popOut {
-            to {
-                bottom: 80px; /* Sube lo suficiente para empezar a leer */
-                z-index: 5; /* Pasa por delante del bolsillo */
-            }
-        }
+        @keyframes popOut { to { bottom: 80px; z-index: 5; } }
 
         .card::before {
             content: ''; position: absolute; inset: 5px;
             border: 1px solid rgba(196, 166, 142, 0.3); border-radius: 3px; pointer-events: none;
         }
 
-        /* TEXTO MAQUINA DE ESCRIBIR */
         .typewriter-text {
             font-family: 'Special Elite', 'Courier New', monospace;
-            font-size: 1rem;
-            color: #5a4237;
-            line-height: 1.6;
-            width: 100%;
-            text-align: left;
-            margin-bottom: 20px;
-            /* Esto es vital: asegura que se vea bien en móvil */
-            word-wrap: break-word; 
+            font-size: 1rem; color: #5a4237; line-height: 1.6;
+            width: 100%; text-align: left; margin-bottom: 20px;
+            word-wrap: break-word;
         }
 
         .cursor {
             display: inline-block; width: 2px; height: 1em;
             background-color: #b5705a;
-            animation: blink 0.8s infinite;
-            vertical-align: text-bottom;
+            animation: blink 0.8s infinite; vertical-align: text-bottom;
         }
-
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* FIRMA */
         .signature {
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-size: 1.1rem;
-            color: #b5705a;
-            margin-top: auto; /* Empuja la firma siempre al final */
-            opacity: 0;
-            transition: opacity 1s ease;
+            font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.1rem;
+            color: #b5705a; margin-top: auto; opacity: 0; transition: opacity 1s ease;
         }
         .signature.visible { opacity: 1; }
 
         .ending-heart {
-            font-size: 1.3rem;
-            color: transparent;
-            text-shadow: 0 0 0 #b5705a; /* Mismo truco para el corazón final */
-            margin-top: 5px;
-            opacity: 0;
-            transition: opacity 1s ease;
+            font-size: 1.3rem; color: transparent; text-shadow: 0 0 0 #b5705a;
+            margin-top: 5px; opacity: 0; transition: opacity 1s ease;
         }
         .ending-heart.visible { opacity: 1; animation: pulse 2s infinite; }
-        
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
-
     </style>
 </head>
 <body>
-
     <div class="particles" id="particles"></div>
-
     <div class="scene">
         <div class="envelope">
             <div class="envelope-body"></div>
             <div class="flap"></div>
             <div class="pocket"></div>
-            <div class="wax-seal">
-                <div class="wax-seal-circle"></div>
-            </div>
-
+            <div class="wax-seal"><div class="wax-seal-circle"></div></div>
             <div class="card">
                 <div class="typewriter-text" id="typewriter"></div>
                 <div class="signature" id="signature">Con todo mi amor, Ivan</div>
@@ -273,24 +206,17 @@
             </div>
         </div>
     </div>
-
     <script>
         const fullText = `Mi amorcito, perdón por haberme tardado algo, pero quería ver cómo hacerte algo bonito.\n\n¿Quieres pasar conmigo este San Valentín?\n\nTe amo mucho, mi princesa.`;
 
-        // --- Partículas (Ajustadas a un solo color pastel) ---
         (function createParticles() {
             const container = document.getElementById('particles');
-            // Usamos solo corazones, sin otros símbolos raros
             const symbol = '♥';
-
             for (let i = 0; i < 20; i++) {
                 const el = document.createElement('span');
-                el.className = 'particle';
-                el.textContent = symbol;
+                el.className = 'particle'; el.textContent = symbol;
                 el.style.left = Math.random() * 100 + '%';
-                // Tamaños variados pero sutiles
                 el.style.fontSize = (Math.random() * 1 + 0.5) + 'rem';
-                
                 el.style.setProperty('--sway', (Math.random() - 0.5) * 60 + 'px');
                 el.style.animationDuration = (15 + Math.random() * 10) + 's';
                 el.style.animationDelay = (Math.random() * 15) + 's';
@@ -298,35 +224,27 @@
             }
         })();
 
-        // --- Lógica de Escritura ---
         const typewriterEl = document.getElementById('typewriter');
         const signatureEl = document.getElementById('signature');
         const endingHeart = document.getElementById('endingHeart');
-
-        // Esperamos a que la carta salga del sobre (aprox 4s total de animaciones previas)
-        const TYPE_START_DELAY = 4000; 
+        const TYPE_START_DELAY = 4000;
 
         function startTypewriter() {
             let i = 0;
             typewriterEl.innerHTML = '<span class="cursor"></span>';
             const cursor = typewriterEl.querySelector('.cursor');
-
             function type() {
                 if (i < fullText.length) {
                     const char = fullText.charAt(i);
-                    
                     if (char === '\n') {
                         cursor.insertAdjacentHTML('beforebegin', '<br>');
-                        // Pausa un poco más larga en los saltos de línea
                         setTimeout(type, 500);
                     } else {
                         cursor.insertAdjacentText('beforebegin', char);
-                        // Velocidad variable para efecto humano
                         setTimeout(type, 50 + Math.random() * 50);
                     }
                     i++;
                 } else {
-                    // Fin de la escritura
                     setTimeout(() => {
                         cursor.style.display = 'none';
                         signatureEl.classList.add('visible');
@@ -336,7 +254,6 @@
             }
             type();
         }
-
         setTimeout(startTypewriter, TYPE_START_DELAY);
     </script>
 </body>
