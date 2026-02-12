@@ -16,79 +16,62 @@
 
         html, body {
             width: 100%;
-            height: 100%;
-            height: 100dvh;
+            height: 100dvh; /* Usamos dvh para iOS */
             overflow: hidden;
         }
 
         body {
             display: flex;
             justify-content: center;
-            align-items: center;
+            /* CAMBIO 1: Alineamos todo abajo para dejar espacio arriba */
+            align-items: flex-end; 
+            padding-bottom: 12vh; /* Empuja el sobre un poco hacia arriba */
             background: #f9f1ec;
             font-family: 'Cormorant Garamond', Georgia, serif;
             position: relative;
         }
 
-        /* ============================================
-           FONDO
-           ============================================ */
+        /* Partículas de fondo */
         .particles {
             position: fixed;
             inset: 0;
             pointer-events: none;
             z-index: 0;
-            overflow: hidden;
         }
-
         .particle {
             position: absolute;
             opacity: 0;
             animation: drift linear infinite;
         }
-
         @keyframes drift {
-            0% {
-                transform: translateY(105dvh) translateX(0) rotate(0deg) scale(0.6);
-                opacity: 0;
-            }
-            8% { opacity: 0.12; }
-            50% { 
-                transform: translateY(50dvh) translateX(var(--sway)) rotate(180deg) scale(0.9);
-                opacity: 0.10;
-            }
-            92% { opacity: 0.08; }
-            100% {
-                transform: translateY(-8dvh) translateX(calc(var(--sway) * -0.5)) rotate(360deg) scale(0.7);
-                opacity: 0;
-            }
+            0% { transform: translateY(105dvh) translateX(0) rotate(0deg) scale(0.6); opacity: 0; }
+            50% { opacity: 0.15; }
+            100% { transform: translateY(-10dvh) translateX(var(--sway)) rotate(360deg) scale(0.7); opacity: 0; }
         }
 
-        /* ============================================
-           SOBRE
-           ============================================ */
+        /* ESCENA */
         .scene {
             position: relative;
             z-index: 5;
             display: flex;
             flex-direction: column;
             align-items: center;
+            /* Asegura que la escena no sea más ancha que el móvil */
+            width: 100%; 
         }
 
+        /* SOBRE */
         .envelope {
             position: relative;
-            width: min(82vw, 340px);
-            height: min(55vw, 228px);
+            width: min(85vw, 360px);
+            height: min(55vw, 240px);
             opacity: 0;
-            transform: translateY(60px);
-            animation: envelopeEnter 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards;
+            transform: translateY(50px);
+            animation: envelopeEnter 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards;
         }
 
         @keyframes envelopeEnter {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .envelope-body {
@@ -96,7 +79,8 @@
             inset: 0;
             background: linear-gradient(160deg, #e8d5c8 0%, #dfc7b8 100%);
             border-radius: 0 0 10px 10px;
-            box-shadow: 0 12px 40px rgba(139, 109, 92, 0.15), 0 2px 8px rgba(139, 109, 92, 0.08);
+            box-shadow: 0 12px 40px rgba(139, 109, 92, 0.2);
+            z-index: 2;
         }
 
         .flap {
@@ -105,12 +89,12 @@
             left: 0;
             width: 0;
             height: 0;
-            border-left: calc(min(82vw, 340px) / 2) solid transparent;
-            border-right: calc(min(82vw, 340px) / 2) solid transparent;
-            border-top: calc(min(55vw, 228px) / 2) solid #c4a68e;
+            border-left: calc(min(85vw, 360px) / 2) solid transparent;
+            border-right: calc(min(85vw, 360px) / 2) solid transparent;
+            border-top: calc(min(55vw, 240px) / 2 + 10px) solid #c4a68e;
             transform-origin: top center;
-            z-index: 5;
-            animation: flapOpen 1.2s cubic-bezier(0.4, 0, 0.2, 1) 2.6s forwards;
+            z-index: 6; /* Empieza encima de todo */
+            animation: flapOpen 1.2s cubic-bezier(0.4, 0, 0.2, 1) 2.5s forwards;
         }
 
         @keyframes flapOpen {
@@ -123,148 +107,115 @@
             left: 0;
             width: 0;
             height: 0;
-            border-left: calc(min(82vw, 340px) / 2) solid #e8d5c8;
-            border-right: calc(min(82vw, 340px) / 2) solid #e8d5c8;
-            border-bottom: calc(min(55vw, 228px) / 2) solid #eeddd2;
+            border-left: calc(min(85vw, 360px) / 2) solid #e8d5c8;
+            border-right: calc(min(85vw, 360px) / 2) solid #e8d5c8;
+            border-bottom: calc(min(55vw, 240px) / 2) solid #eeddd2;
             border-radius: 0 0 10px 10px;
-            z-index: 3;
+            z-index: 4;
         }
 
+        /* SELLO */
         .wax-seal {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 44px;
-            height: 44px;
-            z-index: 6;
-            animation: sealFade 0.6s ease 2.3s forwards;
+            width: 48px;
+            height: 48px;
+            z-index: 7;
+            animation: sealFade 0.8s ease 2.2s forwards;
         }
-
         .wax-seal-circle {
-            width: 44px;
-            height: 44px;
+            width: 100%; height: 100%;
             background: radial-gradient(circle at 35% 35%, #d4917a, #b5705a);
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 8px rgba(181, 112, 90, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.2);
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
+        .wax-seal-circle::after { content: '♥'; color: rgba(255,255,255,0.8); font-size: 1.4rem; }
+        @keyframes sealFade { to { opacity: 0; transform: translate(-50%, -50%) scale(0.8); pointer-events: none; } }
 
-        .wax-seal-circle::after {
-            content: '♥';
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.7);
-            margin-top: -1px;
-        }
-
-        @keyframes sealFade {
-            to { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-        }
-
-        /* ============================================
-           TARJETA
-           ============================================ */
+        /* CARTA (SOLUCIÓN AL PROBLEMA) */
         .card {
             position: absolute;
-            bottom: 5px;
+            /* Empieza escondida dentro del sobre */
+            bottom: 10px; 
             left: 50%;
             transform: translateX(-50%);
-            width: calc(min(82vw, 340px) - 36px);
+            width: calc(min(85vw, 360px) - 30px);
+            
+            /* CAMBIO CRÍTICO: Altura fija y grande para que quepa todo el texto */
+            /* 55vh asegura que ocupe más de la mitad de la pantalla */
+            height: 52vh; 
+            max-height: 450px; /* Límite para que no sea gigante */
+
             background: #fffdf9;
             border-radius: 6px;
-            z-index: 2;
-            padding: 24px 22px;
-            text-align: center;
+            z-index: 3; /* Detrás del bolsillo, delante del cuerpo */
+            padding: 25px 20px;
+            
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            min-height: calc(min(55vw, 228px) - 20px);
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+            /* Justificar al inicio para que el texto empiece arriba */
+            justify-content: flex-start; 
             
-            /* Sube un poco antes para dar tiempo al JS */
-            animation: cardRise 1.4s cubic-bezier(0.22, 1, 0.36, 1) 3.8s forwards;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            animation: cardRise 1.5s cubic-bezier(0.22, 1, 0.36, 1) 3.6s forwards;
         }
 
+        /* La carta sube y se queda ahí */
         @keyframes cardRise {
             to {
-                bottom: calc(min(55vw, 228px) * 0.72);
-                z-index: 7;
+                /* Sube lo suficiente para verse entera, usando bottom relativo al sobre */
+                bottom: 120px; 
+                z-index: 5; /* Pasa a estar por encima del bolsillo */
             }
         }
 
         .card::before {
-            content: '';
-            position: absolute;
-            inset: 6px;
-            border: 1px solid rgba(196, 166, 142, 0.25);
-            border-radius: 3px;
-            pointer-events: none;
+            content: ''; position: absolute; inset: 5px;
+            border: 1px solid rgba(196, 166, 142, 0.3); border-radius: 4px; pointer-events: none;
         }
 
-        /* ============================================
-           TEXTO (CORREGIDO PARA IPHONE)
-           ============================================ */
+        /* TEXTO */
         .typewriter-text {
-            font-family: 'Special Elite', 'Courier New', monospace; /* Fallback añadido */
-            font-size: clamp(0.82rem, 3.8vw, 1.05rem);
+            font-family: 'Special Elite', 'Courier New', monospace;
+            font-size: clamp(0.9rem, 4vw, 1.1rem); /* Letra legible en iPhone */
             color: #5a4237;
-            line-height: 1.75;
-            letter-spacing: 0.3px;
-            text-align: left;
+            line-height: 1.6;
             width: 100%;
-            min-height: 90px;
-            /* CORRECCIÓN: Eliminada opacity: 0 y la animación de entrada */
-            /* El texto será visible en cuanto JS lo escriba */
-            opacity: 1; 
+            text-align: left;
+            margin-top: 10px;
         }
 
         .cursor {
-            display: inline-block;
-            color: #b5705a;
+            display: inline-block; width: 2px; height: 1.2em;
+            background-color: #b5705a;
+            vertical-align: bottom;
             animation: blink 0.8s step-end infinite;
-            font-weight: 100;
-            width: 2px; /* Asegura que se vea aunque la fuente falle */
         }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
+        @keyframes blink { 50% { opacity: 0; } }
 
         .signature {
-            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-family: 'Cormorant Garamond', serif;
             font-style: italic;
-            font-size: clamp(0.85rem, 3.5vw, 1rem);
+            font-size: 1.2rem;
             color: #b5705a;
-            margin-top: 14px;
+            margin-top: auto; /* Empuja la firma al final de la tarjeta fija */
+            margin-bottom: 10px;
             opacity: 0;
-            transform: translateY(8px);
-            transition: opacity 1.2s ease, transform 1.2s ease;
+            transition: opacity 1s;
         }
-
-        .signature.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .signature.visible { opacity: 1; }
 
         .ending-heart {
-            font-size: 1.1rem;
-            opacity: 0;
-            margin-top: 6px;
+            font-size: 1.4rem; color: #b5705a;
+            opacity: 0; transition: opacity 1s;
         }
+        .ending-heart.visible { opacity: 1; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.15);} }
 
-        .ending-heart.visible {
-            opacity: 1; /* Corregido para asegurar visibilidad */
-            animation: gentlePulse 3s ease-in-out infinite;
-        }
-
-        @keyframes gentlePulse {
-            0%, 100% { opacity: 0.8; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.1); }
-        }
     </style>
 </head>
 <body>
@@ -276,9 +227,7 @@
             <div class="envelope-body"></div>
             <div class="flap"></div>
             <div class="pocket"></div>
-            <div class="wax-seal">
-                <div class="wax-seal-circle"></div>
-            </div>
+            <div class="wax-seal"><div class="wax-seal-circle"></div></div>
 
             <div class="card">
                 <div class="typewriter-text" id="typewriter"></div>
@@ -289,73 +238,57 @@
     </div>
 
     <script>
-        // --- Texto completo ---
         const fullText = `Mi amorcito, perdón por haberme tardado algo, pero quería ver cómo hacerte algo bonito.\n\n¿Quieres pasar conmigo este San Valentín?\n\nTe amo mucho, mi princesa.`;
 
-        // --- Partículas ---
+        // Partículas
         (function createParticles() {
             const container = document.getElementById('particles');
-            const symbols = ['♥', '✦', '·', '♥', '✧', '·', '♥'];
-
-            for (let i = 0; i < 16; i++) {
+            const symbols = ['♥', '✦', '·'];
+            for (let i = 0; i < 18; i++) {
                 const el = document.createElement('span');
                 el.className = 'particle';
                 el.textContent = symbols[i % symbols.length];
-                el.style.left = (Math.random() * 100) + '%';
-                el.style.fontSize = (0.5 + Math.random() * 0.7) + 'rem';
-                el.style.color = `hsl(${15 + Math.random() * 20}, ${30 + Math.random() * 20}%, ${70 + Math.random() * 15}%)`;
-                el.style.setProperty('--sway', (Math.random() - 0.5) * 60 + 'px');
-                el.style.animationDuration = (14 + Math.random() * 18) + 's';
-                el.style.animationDelay = (Math.random() * 14) + 's';
+                el.style.left = Math.random() * 100 + '%';
+                el.style.fontSize = (Math.random() * 0.8 + 0.5) + 'rem';
+                el.style.color = `hsl(${10 + Math.random() * 30}, 40%, 70%)`;
+                el.style.setProperty('--sway', (Math.random() - 0.5) * 80 + 'px');
+                el.style.animationDuration = (12 + Math.random() * 10) + 's';
+                el.style.animationDelay = (Math.random() * 10) + 's';
                 container.appendChild(el);
             }
         })();
 
-        // --- Máquina de escribir (Lógica robusta para móvil) ---
+        // Lógica de escritura
         const typewriterEl = document.getElementById('typewriter');
         const signatureEl = document.getElementById('signature');
         const endingHeart = document.getElementById('endingHeart');
 
-        // Ajustamos tiempos para asegurar que la carta ya subió
-        const TYPE_START_DELAY = 5600; 
-        const TYPE_SPEED = 65;
-        const PAUSE_NEWLINE = 400;
+        // Retraso para esperar que la carta termine de subir
+        const TYPE_START_DELAY = 5200; 
 
         function startTypewriter() {
             let i = 0;
-            typewriterEl.innerHTML = '<span class="cursor">|</span>';
+            typewriterEl.innerHTML = '<span class="cursor"></span>';
+            const cursor = typewriterEl.querySelector('.cursor');
 
             function type() {
                 if (i < fullText.length) {
-                    const char = fullText.charAt(i); // Método más seguro para todos los navegadores
-                    const cursor = typewriterEl.querySelector('.cursor');
-
-                    if (cursor) {
-                        if (char === '\n') {
-                            cursor.insertAdjacentHTML('beforebegin', '<br>');
-                            i++;
-                            setTimeout(type, PAUSE_NEWLINE);
-                        } else {
-                            cursor.insertAdjacentText('beforebegin', char);
-                            i++;
-                            const variation = TYPE_SPEED + (Math.random() - 0.5) * 30;
-                            setTimeout(type, variation);
-                        }
+                    const char = fullText.charAt(i);
+                    if (char === '\n') {
+                        cursor.insertAdjacentHTML('beforebegin', '<br>');
+                        setTimeout(type, 400); // Pausa en salto de línea
                     } else {
-                        // Si por alguna razón perdimos el cursor, paramos para evitar errores
-                        console.error("Cursor no encontrado");
+                        cursor.insertAdjacentText('beforebegin', char);
+                        setTimeout(type, 50 + Math.random() * 30);
                     }
+                    i++;
                 } else {
                     // Finalizar
                     setTimeout(() => {
-                        const cursor = typewriterEl.querySelector('.cursor');
-                        if (cursor) cursor.style.display = 'none'; // Ocultar en lugar de eliminar
-                        
+                        cursor.style.display = 'none';
                         signatureEl.classList.add('visible');
-                        setTimeout(() => {
-                            endingHeart.classList.add('visible');
-                        }, 800);
-                    }, 1500);
+                        setTimeout(() => endingHeart.classList.add('visible'), 500);
+                    }, 1000);
                 }
             }
             type();
